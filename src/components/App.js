@@ -1,85 +1,62 @@
 import React, { Component } from "react";
 import { v4 as uuid } from "uuid";
-// import PropTypes from 'prop-types';
+import ContactForm from "./contactForm/ContactForm";
+import ContactList from "./contactList/ContactList";
 
 export default class App extends Component {
   state = {
-    contacts: [],
+    contacts: [
+      { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+      { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+      { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+      { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+    ],
     filter: "",
-    name: "",
-    number: "",
   };
 
-  handleInputChange = (evt) => {
-    const { name, value } = evt.currentTarget;
-    this.setState({ [name]: value });
-  };
-
-  handleAddContact = (evt) => {
-    evt.preventDefault();
-    if (!this.state.name.trim()) return alert("There is no name");
-    if (!this.state.number.trim()) return alert("There is no number");
-    if (
-      this.state.contacts
-        .map((contact) => contact.name)
-        .includes(this.state.name.trim())
-    )
-      return alert(`${this.state.name.trim()} is already in contacts`);
-    if (
-      this.state.contacts
-        .map((contact) => contact.number)
-        .includes(this.state.number.trim())
-    )
-      return alert(`${this.state.number.trim()} is already in contacts`);
+  handleAddContact = (object) => {
+    const { name, number } = object;
     this.setState((prevState) => {
       const tmpObject = {
         id: uuid(),
-        name: this.state.name.trim(),
-        number: this.state.number.trim(),
+        name,
+        number,
       };
       return { contacts: [...prevState.contacts, tmpObject] };
     });
   };
 
+  handleInputFilter = (evt) => {
+    evt.preventDefault();
+    const tmpArr = this.state.contacts.map((contact) => contact.name);
+    // console.log(tmpArr);
+    // if (
+    //   this.state.contacts
+    //     .map((contact) => contact.name)
+    //     .includes(this.state.name.trim())
+    // )
+    return console.log(tmpArr);
+  };
+
   render() {
+    const { contacts } = this.state;
+
     return (
       <>
         <h2>Phonebook</h2>
-        <form>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-            required
-            value={this.state.name}
-            onChange={this.handleInputChange}
-          />
-          <input
-            type="tel"
-            name="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-            required
-            value={this.state.number}
-            onChange={this.handleInputChange}
-          />
+        <ContactForm onSubmit={this.handleAddContact} contacts={contacts} />
 
-          <button type="button" onClick={this.handleAddContact}>
-            Add contact
-          </button>
-        </form>
         <h2>Contacts</h2>
-        <ul>
-          {this.state.contacts.map((contact) => (
-            <li key={contact.id}>
-              <p>
-                {contact.name}: {contact.number}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <p>Find contacts by name</p>
+        <input
+          type="text"
+          name="filter"
+          value={this.state.filter}
+          onChange={this.handleInputChange}
+          onInput={this.handleInputFilter}
+        />
+
+        <ContactList contacts={contacts} />
 
         <p>{uuid()}</p>
       </>
