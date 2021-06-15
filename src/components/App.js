@@ -35,6 +35,12 @@ export default class App extends Component {
 
   handleAddContact = (object) => {
     const { name, number } = object;
+    const { contacts } = this.state;
+    if (contacts.map((contact) => contact.name).includes(name.trim()))
+      return alert(`"${name.trim()}" is already in contacts`);
+    if (contacts.map((contact) => contact.number).includes(number.trim()))
+      return alert(`"${number.trim()}" is already in contacts`);
+
     const newObject = {
       id: uuid(),
       name,

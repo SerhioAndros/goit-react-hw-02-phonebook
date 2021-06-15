@@ -16,20 +16,9 @@ class ContactForm extends Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault();
-    if (!this.state.name.trim() || !this.state.number.trim())
+    const { name, number } = this.state;
+    if (!name.trim() || !number.trim())
       return alert("You've missed something :)");
-    if (
-      this.props.contacts
-        .map((contact) => contact.name)
-        .includes(this.state.name.trim())
-    )
-      return alert(`"${this.state.name.trim()}" is already in contacts`);
-    if (
-      this.props.contacts
-        .map((contact) => contact.number)
-        .includes(this.state.number.trim())
-    )
-      return alert(`"${this.state.number.trim()}" is already in contacts`);
 
     this.props.onSubmit(this.state);
     this.setState({
