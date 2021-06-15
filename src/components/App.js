@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { v4 as uuid } from "uuid";
+import styles from "./App.module.css";
+
 import ContactForm from "./contactForm/ContactForm";
 import ContactList from "./contactList/ContactList";
 import Filter from "./filter/Filter";
@@ -71,11 +73,11 @@ export default class App extends Component {
     const filteredContacts = this.handleInputFilter();
 
     return (
-      <>
-        <h1>Phonebook</h1>
+      <div className={styles.container}>
+        <h1 className={styles.mainHeader}>Phonebook</h1>
         <ContactForm onSubmit={this.handleAddContact} contacts={contacts} />
 
-        <h2>Contacts</h2>
+        <h2 className={styles.additionalHeader}>Contacts</h2>
 
         <Filter value={filter} onChange={this.handleInputChange} />
 
@@ -83,7 +85,7 @@ export default class App extends Component {
           contacts={filteredContacts}
           onDeleteContact={this.deleteContact}
         />
-      </>
+      </div>
     );
   }
 }

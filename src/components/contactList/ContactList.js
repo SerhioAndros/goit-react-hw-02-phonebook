@@ -1,9 +1,10 @@
 import React from "react";
 import ContactListItem from "./contactListItem/ContactListItem";
 import PropTypes from "prop-types";
+import styles from "./ContactList.module.css";
 
 const ContactList = ({ contacts, onDeleteContact }) => (
-  <ul>
+  <ul className={styles.contactList}>
     {contacts.map((contact) => (
       <ContactListItem
         key={contact.id}
@@ -22,7 +23,7 @@ ContactList.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      number: PropTypes.number.isRequired,
+      number: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired,
 };

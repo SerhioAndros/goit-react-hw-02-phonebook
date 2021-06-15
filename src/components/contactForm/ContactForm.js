@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { v4 as uuid } from "uuid";
+import styles from "./ContactForm.module.css";
 
 class ContactForm extends Component {
   state = {
@@ -41,9 +42,12 @@ class ContactForm extends Component {
     const uniqueIdName = uuid();
     const uniqueIdNumber = uuid();
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor={uniqueIdName}>Name</label>
+      <form onSubmit={this.handleSubmit} className={styles.addContactForm}>
+        <label htmlFor={uniqueIdName} className={styles.addContactFormLabel}>
+          Name
+        </label>
         <input
+          className={styles.addContactFormInput}
           type="text"
           name="name"
           id={uniqueIdName}
@@ -52,9 +56,13 @@ class ContactForm extends Component {
           required
           value={this.state.name}
           onChange={this.handleInputChange}
+          placeholder="Name"
         />
-        <label htmlFor={uniqueIdNumber}>Number</label>
+        <label htmlFor={uniqueIdNumber} className={styles.addContactFormLabel}>
+          Number
+        </label>
         <input
+          className={styles.addContactFormInput}
           type="tel"
           name="number"
           id={uniqueIdNumber}
@@ -63,9 +71,12 @@ class ContactForm extends Component {
           required
           value={this.state.number}
           onChange={this.handleInputChange}
+          placeholder="Tel. number"
         />
 
-        <button type="submit">Add contact</button>
+        <button type="submit" className={styles.addContactFormBtn}>
+          Add contact
+        </button>
       </form>
     );
   }
@@ -76,7 +87,7 @@ ContactForm.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      number: PropTypes.number.isRequired,
+      number: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired,
   onSubmit: PropTypes.func.isRequired,
